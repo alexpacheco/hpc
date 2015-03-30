@@ -1,0 +1,1104 @@
+\documentclass[slidestop,mathserif,compress,xcolor=svgnames,table]{beamer} 
+\mode<presentation>
+{  
+  \setbeamertemplate{background canvas}[vertical shading][bottom=blue!5,top=blue!5]
+  \setbeamertemplate{navigation symbols}{}%{\insertsectionnavigationsymbol}
+  \usetheme{LSU}
+}
+
+\usepackage{pgf,pgfarrows,pgfnodes,pgfautomata,pgfheaps,pgfshade}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{multirow}
+\usepackage{tabularx}
+\usepackage{booktabs}
+\usepackage{colortbl}
+\usepackage{tikz}
+\usetikzlibrary{shapes,arrows}
+\usetikzlibrary{calc}
+\pgfdeclarelayer{background}
+\pgfdeclarelayer{foreground}
+\pgfsetlayers{background,main,foreground}
+\usepackage[latin1]{inputenc}
+\usepackage{colortbl}
+\usepackage[english]{babel}
+\usepackage{hyperref}
+\usepackage{movie15}
+\hypersetup{
+  pdftitle={Introduction to High Performance Computing},
+  pdfauthor={Alexander B. Pacheco, User Services Consultant, Louisiana State University}
+}
+%\usepackage{movie15}
+\usepackage{times}
+
+\setbeamercovered{dynamic}
+\beamersetaveragebackground{DarkBlue!2}
+\beamertemplateballitem
+
+\usepackage[english]{babel}
+\usepackage[latin1]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{graphicx}
+\definecolor{DarkGreen}{rgb}{0.0,0.3,0.0}
+\definecolor{Blue}{rgb}{0.0,0.0,0.8} 
+\definecolor{dodgerblue}{rgb}{0.1,0.1,1.0}
+\definecolor{indigo}{rgb}{0.41,0.1,0.0}
+\definecolor{seagreen}{rgb}{0.1,1.0,0.1}
+\DeclareSymbolFont{extraup}{U}{zavm}{m}{n}
+%\DeclareMathSymbol{\vardiamond}{\mathalpha}{extraup}{87}
+\newcommand*\vardiamond{\textcolor{tigerspurple}{%
+  \ensuremath{\blacklozenge}}}
+\newcommand*\up{\textcolor{green}{%
+  \ensuremath{\blacktriangle}}}
+\newcommand*\down{\textcolor{red}{%
+  \ensuremath{\blacktriangledown}}}
+\newcommand*\const{\textcolor{darkgray}%
+  {\textbf{--}}}
+
+
+\setbeamercolor{uppercol}{fg=white,bg=red!30!black}%
+\setbeamercolor{lowercol}{fg=black,bg=red!15!white}%
+\setbeamercolor{uppercol1}{fg=white,bg=blue!30!black}%
+\setbeamercolor{lowercol1}{fg=black,bg=blue!15!white}%%
+\setbeamercolor{uppercol2}{fg=white,bg=green!30!black}%
+\setbeamercolor{lowercol2}{fg=black,bg=green!15!white}%
+\newenvironment{colorblock}[4]
+{
+\setbeamercolor{upperblock}{fg=#1,bg=#2}
+\setbeamercolor{lowerblock}{fg=#3,bg=#4}
+\begin{beamerboxesrounded}[upper=upperblock,lower=lowerblock,shadow=true]}
+{\end{beamerboxesrounded}}
+\newenvironment{ablock}[0]
+{
+\begin{beamerboxesrounded}[upper=uppercol,lower=lowercol,shadow=true]}
+{\end{beamerboxesrounded}}
+\newenvironment{bblock}[0]
+{
+\begin{beamerboxesrounded}[upper=uppercol1,lower=lowercol1,shadow=true]}
+{\end{beamerboxesrounded}}
+\newenvironment{eblock}[0]
+{
+\begin{beamerboxesrounded}[upper=uppercol2,lower=lowercol2,shadow=true]}
+{\end{beamerboxesrounded}}
+
+
+\title{Introduction to High Performance Computing}
+
+
+\author[Alex Pacheco]{\large{Alexander~B.~Pacheco}}
+       
+%\institute[High Performance Computing @ Louisiana State University - http://www.hpc.lsu.edu] {\inst{}\footnotesize{User Services Consultant\\LSU HPC \& LONI\\sys-help@loni.org}}
+\institute[HPC Training: Spring 2013] {\inst{}\footnotesize{User Services Consultant\\LSU HPC \& LONI\\sys-help@loni.org}}
+
+\date[\hfill{January 23, 2012\hspace{2cm}\insertframenumber/\inserttotalframenumber}]{\scriptsize{HPC Training Spring 2013\\Louisiana State University\\Baton Rouge\\January 23, 2013}}
+     
+\subject{Talks}
+\keywords{High Performance Computing, LONI \& LSU HPC Computing Resources}
+% This is only inserted into the PDF information catalog. Can be left
+% out. 
+
+
+
+
+% If you have a file called "university-logo-filename.xxx", where xxx
+% is a graphic format that can be processed by latex or pdflatex,
+% resp., then you can add a logo as follows:
+
+% Main Logo on bottom left
+\pgfdeclareimage[height=0.55cm]{its-logo}{LONI}
+\logo{\pgfuseimage{its-logo}}
+% University Logo on top left
+\pgfdeclareimage[height=0.55cm]{university-logo}{LSUGeauxPurp}
+\tllogo{\pgfuseimage{university-logo}}
+% Logo at top right
+\pgfdeclareimage[height=0.5cm]{institute-logo}{its-logo}
+\trlogo{\pgfuseimage{institute-logo}}
+% Logo at bottom right
+\pgfdeclareimage[height=0.5cm]{hpc-logo}{cct-logo}
+\brlogo{\pgfuseimage{hpc-logo}}
+
+% Delete this, if you do not want the table of contents to pop up at
+% the beginning of each subsection:
+ \AtBeginSection[]
+ {
+   \begin{frame}<beamer>
+    \frametitle{\small{Outline}}
+     \small
+     \tableofcontents[currentsection,currentsubsection]
+   \end{frame}
+ }
+
+\begin{document}
+
+\frame{\titlepage}
+
+\normalsize
+\begin{frame}[label=toc,squeeze]
+%  \footnotesize
+  \frametitle{\small{Outline}}
+  \tableofcontents
+\end{frame}
+
+%\part{Introduction}
+\section{What is HPC - Background and Defintions}
+\begin{frame}
+  \frametitle{\small What is Computational Science?}
+  \begin{itemize}
+    \item Gain understanding, mainly through the analysis of mathematical models implemented on computers.
+    \item Construct mathematical models and quantitative analysis techniques, using computers to analyze and solve scientific problems.
+    \item Typically, these models require large amount of floating-point calculations not possible on desktops and laptops.
+    \item The field's growth drove the need for HPC and benefited from it.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{\small What is HPC?}
+  \begin{itemize}
+    \item High Performance Computing (HPC) is computation at the forefront of modern technology, often done on a supercomputer. 
+    \item Acronym soup:
+    \begin{enumerate}
+        \item HPC tasks are characterized as needing large amounts of computing power for short periods of time.
+        \item High-throughput computing (HTC) tasks also require large amounts of computing, but for much longer times.
+        \item High Productivity Computing Systems (HPCS) is a DARPA project for developing a new generation of economically viable high productivity computing systems.
+    \end{enumerate}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{\small What is a supercomputer?}
+  \begin{itemize}
+    \item A supercomputer is a computer at the frontline of current processing capacity, particularly speed of calculation.
+    \item A Supercomputer
+    \begin{enumerate}
+        \item in the 70's used only a few processors
+        \item in the 90's machines with thousands of processors appeared
+        \item currently, massively parallel supercomputers with tens of thousands of ``off-the-shelf'' processors were the norm.
+    \end{enumerate}
+    \item Today, commodity PC's which you can purchase off-the-self have more than one core i.e. dual core, quad core processors.
+    \item Smartphones and Tablets today have more processing power than 15 year old Supercomputers.
+    \item What was a Supercomputer 15 years ago now sits on your desk, or even in your hand.
+ \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{\small What is driving the Change?}
+  \begin{columns}
+    \column{0.45\textwidth}
+    \begin{itemize}
+      \item Moore's Law: number of transistors on integrated circuits doubles approximately every two years. 
+      \item So how is Supercomputing performance measured and who ranks them?
+     \end{itemize}
+    \column{0.55\textwidth}
+    \begin{center}
+      \includegraphics[width=\textwidth]{Moores_Law2011}\\
+		      {\tiny Source: \url{http://en.wikipedia.org/wiki/Moore's_law}}
+    \end{center}
+  \end{columns}
+\end{frame}
+
+\begin{frame}
+  \frametitle{\small TOP 500}
+  \begin{itemize}
+    \item The TOP 500 project ranks and details the 500 most powerful known computer systems in the world, published semi-annually
+    \item Performance is measured in \textbf{FL}oating point \textbf{O}perations \textbf{P}er \textbf{S}econd (FLOPS or flop/s)
+    \item The most powerful supercomputers nowdays
+    \begin{itemize}
+      \item[-] have more than a million cores
+      \item[-] operate in petaflops ($10^{15}$) range.
+    \end{itemize}
+    \item The fastest supercomputer as of Nov 2012 top500 list is Titan
+    \begin{itemize}
+      \item[-] Location: Oak Ridge National Laboratory
+      \item[-] Cores: 560640
+      \item[-] Peak Performance: 17.59 PFlop/s
+    \end{itemize}
+  \end{itemize}
+  \begin{gather*}
+    GFLOPs = cores \times clock \times \frac{FLOPs}{cycle}
+  \end{gather*}
+  \fontsize{4}{5}{\selectfont Most microprocessors today can do 4 FLOPs per clock cycle. Therefore a 2.5-GHz processor has a theoretical performance of 10 billion FLOPs = 10 GFLOPs.}
+\end{frame}
+
+\begin{frame}
+  \frametitle{\small Top 500 Performance}
+  \begin{center}
+    \includegraphics[width=0.8\textwidth,clip=true]{Performance_Development}\\
+    {\tiny Source: \url{http://www.top500.org/statistics/perfdevel/}}
+  \end{center}
+\end{frame}
+
+\begin{frame}
+  \frametitle{\small Top 500 Projected Performance}
+  \begin{center}
+    \includegraphics[width=0.8\textwidth,clip=true]{Projected_Performance_Development}\\
+    {\tiny Source: \url{http://www.top500.org/statistics/perfdevel/}}
+  \end{center}
+\end{frame}
+
+\begin{frame}
+  \frametitle{\small Which fields are Supercomputers used in?}
+  \begin{columns}
+    \column{0.65\textwidth}
+    \vspace{-0.5cm}
+    \begin{center}
+      \includegraphics[width=\textwidth,clip=true]{Top500-App-SystemShare}
+    \end{center}
+    \column{0.35\textwidth}
+    \vspace{0.5cm}
+    \begin{center}
+      \hspace{-0.84cm}
+      \includegraphics[width=1.2\textwidth,clip=true]{Top500-App-SystemShare1}\\
+      {\tiny Source: \url{http://www.top500.org/statistics/overtime/}}
+    \end{center}
+  \end{columns}
+\end{frame}
+
+%\begin{frame}
+%  \frametitle{\small }
+%  \begin{center}
+%    \includegraphics[width=0.6\textwidth,clip=true]{Top500-PerfDevel}\\
+%    {\tiny Source: \url{http://www.top500.org/statistics/overtime/}}
+%  \end{center}
+%\end{frame}
+
+\begin{frame}
+  \frametitle{\small How many cores per socket are used?}
+  \vspace{-0.5cm}
+  \begin{center}
+    \includegraphics[width=0.6\textwidth,clip=true]{Top500_Cores-SystemShare}\\
+    {\tiny Source: \url{http://www.top500.org/statistics/overtime/}}
+  \end{center}
+\end{frame}
+
+\begin{frame}
+  \frametitle{\small Types of Processors: Acclerators, GPUs etc}
+  \begin{columns}
+    \column{0.65\textwidth}
+    \vspace{-0.5cm}
+    \begin{center}
+      \includegraphics[width=\textwidth,clip=true]{Top500_Acc-SystemShare}
+    \end{center}
+    \column{0.35\textwidth}
+    \vspace{0.5cm}
+    \begin{center}
+      \hspace{-1cm}
+      \includegraphics[width=\textwidth,clip=true]{Top500_Acc-SystemShare1}\\
+      {\tiny Source: \url{http://www.top500.org/statistics/overtime/}}
+    \end{center}
+  \end{columns}
+\end{frame}
+
+
+\begin{frame}
+  \frametitle{\small Which Countries have Supercomputers?}
+  \vspace{-0.5cm}
+  \begin{center}
+    \includegraphics[width=0.6\textwidth,clip=true]{Top500_Country-SystemShare}\\
+    {\tiny Source: \url{http://www.top500.org/statistics/overtime/}}
+  \end{center}
+\end{frame}
+
+\begin{frame}
+  \frametitle{\small Which OS are used in Supercomputers?}
+  \begin{columns}
+    \column{0.65\textwidth}
+    \vspace{-1cm}
+    \begin{center}
+      \includegraphics[width=0.9\textwidth,clip=true]{Top500_OS-SystemShare}
+    \end{center}
+    \column{0.35\textwidth}
+    \vspace{0.5cm}
+    \begin{center}
+      \hspace{-1cm}
+      \includegraphics[width=1.2\textwidth,clip=true]{Top500_OS-SystemShare1}\\
+      {\tiny Source: \url{http://www.top500.org/statistics/overtime/}}
+    \end{center}
+  \end{columns}
+\end{frame}
+
+\begin{frame}
+  \frametitle{\small Which OS are used in Supercomputers?}
+  \vspace{-0.5cm}
+  \begin{center}
+    \includegraphics[width=0.6\textwidth,clip=true]{Top500_OSFam-SystemShare}\\
+    {\tiny Source: \url{http://www.top500.org/statistics/overtime/}}
+  \end{center}
+\end{frame}
+
+\begin{frame}
+  \frametitle{\small Who uses these monstrous systems?}
+  \vspace{-0.5cm}
+  \begin{center}
+    \includegraphics[width=0.6\textwidth,clip=true]{Top500_Segments-SystemShare}\\
+    {\tiny Source: \url{http://www.top500.org/statistics/overtime/}}
+  \end{center}
+\end{frame}
+
+\begin{frame}
+  \frametitle{\small Why use HPC?}
+  \begin{itemize}
+    \item HPC may be the only way to achieve computational goals in a given amount of time
+    \begin{itemize}
+      \item Size: Many problems that are interesting to scientists and engineers cannot fit on a PC usually because they need more than a few GB of RAM, or more than a few hundred GB of disk.
+      \item Speed: Many problems that are interesting to scientists and engineers would take a very long time to run on a PC: months or even years; but a problem that would take a month on a PC might only take a few hours on a supercomputer
+    \end{itemize}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{\small Who uses HPC? Parallel Computing}
+  \begin{itemize}
+    \item many calculations are carried out simultaneously
+    \item based on principle that large problems can often be divided into smaller ones, which are then solved in parallel
+    \item Parallel computers can be roughly classified according to the level at which the hardware supports parallelism.
+    \begin{enumerate}
+      \item Multicore computing
+      \item Symmetric multiprocessing
+      \item Distributed computing
+      \item Grid computing
+      \item General-purpose computing on graphics processing units (GPGPU)
+    \end{enumerate}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{\small Distributed Computing}
+  \begin{itemize}
+    \item using resources to solve a problem by dividing into many tasks, each of which is solved by one or more computers connected by a network.
+    \item Condor
+    \begin{itemize}
+      {\footnotesize
+      \item[-] Work: run my application
+      \item[-] Resources: a dedicated cluster of computers or idle computers on a university network
+      }
+    \end{itemize}
+    \item Google
+    \begin{itemize}
+      {\footnotesize
+      \item[-] Work: process a query or "google search''
+      \item[-] Resources: a lot of servers located worldwide
+      }
+    \end{itemize}
+    \item SETI@HOME
+    \begin{itemize}
+      {\footnotesize
+      \item[-] Work: process signal data to find ET
+      \item[-] Resources: a few servers and lots of PCs worldwide
+      }
+    \end{itemize}
+    \item FOLDING@HOME
+    \begin{itemize}
+      {\footnotesize
+      \item[-] Work: simulates protein folding, computational drug design, and other types of molecular dynamics.
+      \item[-] Resources: idle processing resources of thousands of PCs of volunteer who have installed the software on their systems.
+      }
+    \end{itemize}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{\small Grid Computing}
+  \begin{itemize}
+    \item A subset of Distributed Computing
+    \item Three point checklist by Ian Foster\let\thefootnote\relax\footnote{\tiny I. Foster. \textit{"What is the Grid? A Three Point Checklist"}, \url{http://dlib.cs.odu.edu/WhatIsTheGrid.pdf}}
+    \begin{enumerate}
+      \item coordinates resources that are not subject to centralized control,
+      \item using standard, open, general-purpose protocols and interfaces,
+      \item to deliver nontrivial qualities of service.
+    \end{enumerate}
+    \item Condor across a university fails test 2
+    \item Google has issues on tests 1 and 2
+    \item SETI@HOME passes all three tests
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{\small Volunteer Computing}
+  \begin{itemize}
+    \item Volunteer computing is a type of distributed computing in which computer owners donate their computing resources (such as processing power and storage) to one or more ``projects''.
+    \item \textbf{B}erkeley \textbf{O}pen \textbf{I}nfrastructure for \textbf{N}etwork \textbf{C}omputing (BOINC) is an example platform that supports over 40 projects (as of Dec 2012 $\sim$ 7.279 PFLOPS \let\thefootnote\relax\footnote{\tiny Source: Wikipedia})
+    \begin{enumerate}
+      \item SETI@Home (730 TFLOPS)
+      \item MilkyWay@Home (1.6 PFLOPS)
+      \item Einstein@Home (210 TFLOPS)
+    \end{enumerate}
+    \item Folding@Home is another example with 4.195 PFLOPS as of Dec 2009
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{\small What does HPC do?}
+  \begin{columns}
+    \column{0.65\textwidth}
+    \vspace{-1cm}
+    \begin{itemize}
+      \item Simulation of Physical Phenomena
+      \begin{itemize}
+        \item Storm Surge Prediction
+        \item Black Holes Colliding
+        \item Molecular Dynamics
+      \end{itemize}
+      \item Data analysis and Mining
+      \begin{itemize}
+        \item Bioinformatics
+        \item Signal Processing
+        \item Fraud detection
+      \end{itemize}
+      \item Visualization
+      \item Design
+      \begin{itemize}
+        \item Supersonic ballute
+        \item Boeing 787 design
+        \item Drug Discovery
+        \item Oil Exploration and Production
+        \item Automotive Design
+        \item Art and Entertainment
+      \end{itemize}
+    \end{itemize}
+    \column{0.35\textwidth}
+    \includegraphics[width=0.6\textwidth,clip=true]{./Isaac-Storm-Surge}\\
+    \includegraphics[width=0.6\textwidth,clip=true]{./Colliding-Black-Holes}\\
+    \includegraphics[width=0.6\textwidth,clip=true]{./Molecular-Dynamics}\\
+    \includegraphics[width=0.6\textwidth,clip=true]{./Plane-Design}
+  \end{columns}
+\end{frame}
+
+\begin{frame}
+  \frametitle{\small HPC by Disciplines}
+  \begin{itemize}
+    \item Traditional Disciplines
+    \begin{itemize}
+      \item Science: Physics, Chemistry, Biology, Material Science
+      \item Engineering
+    \end{itemize}
+    \item Non Traditional Disciplines
+    \begin{itemize}
+      \item Finance
+      \begin{itemize}
+        \item Preditive Analytics
+        \item Trading
+      \end{itemize}
+      \item Humanities
+      \begin{itemize}
+        \item Culturomics or cultural analytics: study human behavior and cultural trends through quantitative analysis of digitized texts, images and videos.
+      \end{itemize}
+    \end{itemize}
+  \end{itemize}
+\end{frame}
+
+\section{Available HPC Resources}
+\begin{frame}
+  \frametitle{\small Which HPC resources are available?}
+  \begin{columns}
+    \column{0.6\textwidth}
+    \begin{itemize}
+      \item National Level: E\textbf{x}treme \textbf{S}cience and \textbf{E}ngineering \textbf{D}iscovery \textbf{E}nvironment (xSEDE)
+      \item[-] 5 year, \$121M project supported by NSF
+      \item[-] supports 16 supercomputers and high-end visualization and data analysis resources across the country.
+    \end{itemize}
+    \column{0.4\textwidth}
+    \begin{center}
+      \includegraphics[width=\textwidth]{xsede-logo}
+    \end{center}
+  \end{columns}
+\end{frame}
+\begin{frame}
+  \frametitle{\small Which HPC resources are available?}
+  \begin{columns}
+    \column{0.6\textwidth}
+    \begin{itemize}
+      \item State Level: \textbf{L}ouisiana \textbf{O}ptical \textbf{N}etwork \textbf{I}nitiative (LONI)
+      \item[-] A state-of-the-art fiber optic network that runs throughout Louisiana and connects Louisiana and Mississippi research universities.
+      \item[-] \$40M Optical Network, 10Gb Ethernet over fiber optics.
+      \item[-] \$10M Supercomputers installed at 6 sites.
+    \end{itemize}
+    \column{0.4\textwidth}
+    \begin{center}
+      \includegraphics[width=\textwidth]{LONI}
+    \end{center}
+  \end{columns}
+\end{frame}
+\begin{frame}
+  \frametitle{\small Which HPC resources are available?}
+  \begin{columns}
+    \column{0.5\textwidth}
+    \begin{itemize}
+      \item University Level: LSU HPC resources available to LSU Faculty and their affiliates.
+      \item[$\bigstar$] LONI and LSU HPC administered and supported by HPC@LSU
+    \end{itemize}
+    \column{0.5\textwidth}
+    \begin{center}
+      \includegraphics[width=\textwidth]{hpc-logo}\\
+      \vspace{0.5cm}
+      \includegraphics[width=\textwidth]{its-logo}
+    \end{center}
+  \end{columns}
+\end{frame}
+
+
+\section{What is HPC@LSU?}
+\begin{frame}
+  \frametitle{\small What is HPC@LSU?}
+  \begin{itemize}
+    \item Hardware Resources:
+    \begin{itemize}
+      \item Currently manage 11 computing resources.
+      \item 7 LONI computing clusters
+      \item 4 LSU HPC computing clusters
+    \end{itemize}
+    \item Available Software Stack
+    \begin{itemize}
+      \item Communication Software
+      \item Programming support: Compilers and Libraries
+      \item Application Software
+    \end{itemize}
+    \item User Services
+    \begin{itemize}
+      \item Support: running jobs, software installation 
+      \item Training: 
+    \end{itemize}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{\small LONI \& LSU HPC Clusters}
+  \begin{columns}
+    \column{11cm}
+    \vspace{-0.7cm}
+  \footnotesize{
+    \begin{block}{Linux Clusters}
+      \begin{center}
+        \begin{tabular}{|c|c|c|c|c|c|}
+          \hline
+          Resource & Cluster & Peak TF/s & Location & Status & Login\\
+          \hline
+          \multirow{6}{*}{LONI} & QueenBee & 50.7 & ISB & Production & LONI \\
+          & Eric & 4.7 & LSU & Production & LONI\\
+          & Louie & 4.7 & Tulane & Production & LONI\\
+          & Oliver & 4.7 & ULL & Production & LONI\\
+          & Painter & 4.7 & LaTech & Production & LONI\\
+          & Poseidon & 4.7 & UNO & Production & LONI\\
+          & Satellite & 4.7 & Southern & Unknown & LONI\\
+          \hline
+          \multirow{4}{*}{ LSU HPC} & Tezpur & 15.3 & LSU & Production & HPC\\
+          & Philip & 3.5 & LSU & Production & HPC\\
+          \cline{2-6}
+          & \multirow{2}{*}{SuperMike II} & 146 (CPU) & \multirow{2}{*}{LSU} & Friendly & \multirow{2}{*}{HPC} \\
+          &                            & 66 (GPU) & & User Mode & \\
+          \hline
+        \end{tabular}
+      \end{center}
+    \end{block}
+    \begin{block}{AIX Clusters}
+      \begin{center}
+        \def\firstrowcolor{\rowcolor{green}}
+        \def\secondrowcolor{\rowcolor{blue!50}}
+        \def\thirdrowcolor{\rowcolor{tigerspurple!80}}
+        \begin{tabular}{|c|c|c|c|c|c|}
+          \hline
+          Resource & Cluster & Peak TF/s & Location & Status & Login\\
+          \hline
+          LSU HPC & Pandora & 6.8 & LSU & Production & HPC\\
+          \hline
+        \end{tabular}
+      \end{center}
+    \end{block}
+  }
+  \end{columns}
+\end{frame}
+
+\begin{frame}[allowframebreaks]
+  \frametitle{\small Cluster Hardware}
+  \vspace{-0.3cm}
+  \begin{itemize}
+  \item Queen Bee 
+    \begin{enumerate}
+      {\footnotesize
+      \item[$\vardiamond$]668 nodes: 8 Intel Xeon cores @ 2.33 GHz
+      \item[$\vardiamond$]8 GB RAM
+      \item[$\vardiamond$]192 TB storage
+      }
+    \end{enumerate}
+  \item Other LONI clusters
+    \begin{enumerate}
+      {\footnotesize
+      \item[$\vardiamond$]128 nodes: 4 Intel Xeons cores @ 2.33 GHz
+      \item[$\vardiamond$]4 GB RAM
+      \item[$\vardiamond$]9 TB storage
+      }
+    \end{enumerate}
+  \item Tezpur
+    \begin{enumerate}
+      {\footnotesize
+      \item[$\vardiamond$]360 nodes, 4 Intel Xeon cores @ 2.33 GHz
+      \item[$\vardiamond$]4 GB RAM
+      \item[$\vardiamond$]32 TB storage
+      }
+    \end{enumerate}
+  \item Pandora
+    \begin{enumerate}
+      {\footnotesize
+      \item[$\vardiamond$]8 Power7 nodes, 8 IBM Power7 processors @ 3.33 GHz
+      \item[$\vardiamond$]128 GB RAM
+      \item[$\vardiamond$]19 TB storage
+      }
+    \end{enumerate}
+    \newpage
+  \item Philip
+    \begin{enumerate}
+      {\footnotesize
+      \item[$\vardiamond$]37 nodes, 8 Intel Xeon cores @ 2.93 GHz
+      \item[$\vardiamond$]24/48/96 GB RAM
+      \item[$\vardiamond$]2 nodes, 12 Intel Xeon core @ 2.66GHz with hyperthreading with 3 Tesla 2070 GPU's each
+      \item[$\vardiamond$] Tesla M2070: 448 CUDA cores @ 1.15GHz and 5.25GB Total Memory
+      \item[$\vardiamond$]Shares storage with Tezpur
+      }
+    \end{enumerate}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{\small SuperMike II}
+  \begin{eblock}{}
+    \begin{itemize}
+      \item Ranked 250 in Nov 2012 Top 500 List.
+      \item 146 CPU TFlops and 66 double-precision GPU TFlops,
+      \item 440 nodes, dual 8-core  Intel Sandybridge Xeon cores @ 2.6 GHz
+      \item 382 standard nodes with 32GB RAM (16 cores per node),
+      \item 50 GPU nodes with 64GB RAM and dual NVIDIA Tesla M2090 6GB GPUs,
+      \item 8 big memory nodes with 256GB RAM, capable of aggregation into a single virtual symmetric processing (vSMP) node using ScaleMP,
+      \item Mellanox Infiniband QDR network of 2:1 over-subscription.
+      \item Estimated production launch Feb 2013.
+%      \item {\color{red} To run jobs on SuperMike II you will need}
+%      \begin{enumerate}
+%        {\color{red}
+%          \item a LSU HPC account, and
+%          \item an active LSU HPC allocation.
+%        }
+%      \end{enumerate}
+    \end{itemize}
+  \end{eblock}
+\end{frame}
+
+\begin{frame}
+  \frametitle{\small QueenBee}
+  \includegraphics[width=\textwidth]{QueenBee-02.jpg}
+\end{frame}
+\begin{frame}
+  \frametitle{\small Painter Wiring}
+  \includegraphics[width=\textwidth]{Painter.jpg}
+\end{frame}
+\begin{frame}
+  \frametitle{\small Storage}
+  \includegraphics[width=\textwidth]{Painter-01.jpg}
+\end{frame}
+\begin{frame}
+  \frametitle{\small SuperMike II}
+  \includegraphics[width=\textwidth]{supermike2-1.jpg}
+\end{frame}
+
+\begin{frame}
+  \frametitle{\small Account Eligibility}
+  \begin{bblock}{LONI}
+    {\fontsize{9}{10}\selectfont
+      \begin{itemize}
+        \item All faculty and research staff at a LONI Member Institution, as well as students pursuing sponsored research activities at these facilities, are eligible for a LONI account. 
+        \item Requests for accounts by research associates not affiliated with a LONI Member Institution will be handled on a case by case basis. 
+        \item For prospective LONI Users from a non-LONI Member Institution, you are required to have a faculty or research staff in one of LONI Member Institutions as your Collaborator to sponsor you a LONI account.
+      \end{itemize}
+    }
+  \end{bblock}
+  \begin{bblock}{LSU HPC}
+    {\fontsize{9}{10}\selectfont
+      \begin{itemize}
+        \item All faculty and research staff at Louisiana State University, as well as students pursuing sponsored research activities at LSU, are eligible for a LSU HPC account. 
+        \item For prospective LSU HPC Users from outside LSU, you are required to have a faculty or research staff at LSU as your Collaborator to sponsor you a LSU HPC account.
+      \end{itemize}
+    }
+  \end{bblock}
+\end{frame}
+
+\begin{frame}
+  \frametitle{\small How do I get a LONI Account}
+  \begin{bblock}{LONI Account}
+    \begin{enumerate}
+      \item Visit \url{https://allocations.loni.org/login_request.php}.
+      \item Enter your \textbf{Institutional Email Address} and captcha code.
+      \item Check your email and click on the link provided (link is active for 24hrs only)
+      \item Fill the form provided
+      \item For LONI Contact/Collaborator field enter the name of your research advisor/supervisor who must be a Full Time Faculty member at a LONI member institution.
+      \item Click Submit button
+      \item Your account will be activated once we have verified your credentials.
+    \end{enumerate}
+  \end{bblock}
+\end{frame}
+
+\begin{frame}
+  \frametitle{\small How do I get a LSU HPC Account}
+  \begin{bblock}{LSU HPC Account}
+    \begin{enumerate}
+      \item Visit \url{https://accounts.hpc.lsu.edu/login_request.php}.
+      \item Enter your \textbf{Institutional Email Address} and captcha code.
+      \item Check your email and click on the link provided (link is active for 24hrs only)
+      \item Fill the form provided
+      \item For HPC Contact/Collaborator field enter the name of your research advisor/supervisor who must be a Full Time Faculty member at LSU
+      \item Click Submit button
+      \item Your account will be activated once we have verified your credentials.
+    \end{enumerate}
+  \end{bblock}
+\end{frame}
+
+\begin{frame}
+  \frametitle{\small LONI \& LSU HPC Accounts}
+  \begin{ablock}{}
+    \begin{itemize}
+      {\huge
+          \item LSU HPC and LONI systems are two distinct computational resources administered by HPC@LSU.
+          \item[]
+          \item Having an account on one does not grant the user access to the other.
+      }
+    \end{itemize}
+  \end{ablock}
+\end{frame}
+
+\begin{frame}
+  \frametitle{\small Allocations}
+  \begin{bblock}{What is an Allocation?}
+    {\footnotesize
+      \begin{itemize}
+        \item An allocation is a block of computer time measured in core-hours (number of processing cores requested times the amount of wall-clock time used in hours).
+        \item LONI users: All jobs need to be charged to valid allocation.
+        \item \color{red!90!black}{LSU HPC users: Allocations are coming soon when SuperMike II is put into production.}
+      \end{itemize}
+    }
+  \end{bblock}
+  \begin{bblock}{Who can request an Allocation?}
+    {\footnotesize
+      \begin{itemize}
+        \item Only Full Time Faculty member at LONI member institutions can act as Principle Investigators (PI) and request Allocations.
+        \item Rule of Thumb: If you can sponsor user accounts, you can request allocations.
+        \item Everyone else will need to join an existing allocation of a PI usually your advisor/supervision or course instructor (if your course requires a LONI account). 
+      \end{itemize}
+    }
+  \end{bblock}
+\end{frame}
+
+\begin{frame}
+  \frametitle{\small How to request/join an Allocation}
+  \begin{bblock}{}
+    {\footnotesize
+      \begin{itemize}
+        \item Login to your LONI Profile at \url{https://allocations.loni.org}
+        \item Click on "Request Allocation" in the right sidebar.
+        \item Click "New Allocation" to request a New Allocation.
+        \begin{enumerate}
+          {\footnotesize
+            \item Fill out the form provided.
+            \item All requests require submission of a proposal justifying the use of the resources.
+            \item Click "Submit Request" button.
+          }
+        \end{enumerate}
+        \item Click "Join Allocation" to join an existing Allocation.
+        \begin{enumerate}
+          {\footnotesize
+            \item Search for PI using his/her email address, full name or LONI username
+            \item Click "Join Projects" button associated with the PI's information.
+            \item You will be presented with a list of allocations associated with the PI. Click "Join" for the allocation you wish to join.
+            \item Your PI will receive an email requesting him to confirm adding you to the allocation.
+            \item Please do not contact the helpdesk to do this.
+          }
+        \end{enumerate}
+      \end{itemize}
+    }
+  \end{bblock}
+\end{frame}
+
+\begin{frame}
+  \frametitle{\small More on LONI Allocation}
+  \begin{bblock}{Allocation Types}
+    \begin{enumerate}
+      \item \textbf{Startup}: Allocations upto 50K SUs
+      \begin{itemize}
+        \item Can be requested at any time during the year.
+        \item Reviewed and Approved by the LONI Resource Allocation Committee.
+        \item Only \textbf{two active} allocations per PI at any time.
+        \item Expired Allocations are considered active if the end date is in the future.
+      \end{itemize}
+      \item \textbf{Large}: Allocations between 50K - 4M SUs.
+      \begin{itemize}
+        \item Reviewed and Approved by the LONI Resource Allocation Committee every Quater.
+        \item Users can have multiple Large Allocations.
+        \item A PI may have a total of 6M SUs active at any given time.
+      \end{itemize}
+    \end{enumerate}
+  \end{bblock}
+\end{frame}
+
+\begin{frame}
+  \frametitle{\small Account Management}
+  \begin{bblock}{}
+    \begin{itemize}
+    \item LONI account
+    \item[] \url{https://allocations.loni.org}
+    \item LSU HPC account
+    \item[] \url{https://accounts.hpc.lsu.edu}
+    \item Newest cluster in production at LSU HPC is Pandora.
+    \item Newest cluster at LSU HPC is SuperMike II is in user friendly mode. 
+    \end{itemize}
+  \end{bblock}
+  
+  \begin{eblock}{}
+    \begin{itemize}
+    \item The default Login shell is bash
+    \item Supported Shells: bash, tcsh, ksh, csh \& sh
+    \item Change Login Shell at the profile page
+    \end{itemize}
+  \end{eblock}
+\end{frame}
+
+\begin{frame}
+  \frametitle{\small How do I reset my password?}
+  \begin{itemize}
+    \item LONI: Visit \url{https://allocations.loni.org/user_reset.php}
+    \item LSU HPC: Visit \url{https://accounts.hpc.lsu.edu/user_reset.php}
+    \item Enter the email address attached to your account and captcha code
+    \item You will receive an email with link to reset your password, link must be used within 24 hours.
+    \item Once you have entered your password, one of the HPC Admins need to approve the password reset.
+    \item The Password approval can take anything from 10 mins to a few hours depending on the schedule of the Admins and also time of day
+    \item You will receive a confirmation email stating that your password reset has been approved.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{\small Password Security}
+  \begin{itemize}
+    \item Passwords should be changed as soon as your account is activated for added security.
+    \item Password must be at least 12 and at most 32 characters long, must contain three of the four classes of characters:
+    \begin{enumerate}
+      \item lowercase letters,
+      \item uppercase letters, 
+      \item digits, and 
+      \item other special characters (punctuation, spaces, et cetera).
+    \end{enumerate}
+    \item Do not use a word or phrase from a dictionary,
+    \item Do not use a word that can be obviously tied to the user which are less likely to be compromised.
+    \item Changing the password on a regular basis also helps to maintain security.
+    \item {\scriptsize \url{http://www.thegeekstuff.com/2008/06/the-ultimate-guide-for-creating-strong-passwords/}}
+    \item {\scriptsize \url{http://en.wikipedia.org/wiki/Password_policy}}
+  \end{itemize}
+\end{frame}
+
+\section{HPC@LSU Services}
+\begin{frame}
+  \frametitle{\small Communication Software}
+  \begin{itemize}
+    \item Shared Memory Programming - OpenMP
+    \begin{itemize}
+      \item[$\vardiamond$] Good for programs that exhibit \textit{data parallelism}.
+      \item[$\vardiamond$] Managed by compiler via special programming statements.
+    \end{itemize}
+    \item Distributed Memory Programming - MPI
+    \begin{itemize}
+      \item[$\vardiamond$] Good for programs that exhibit \textit{task parallelism}.
+      \item[$\vardiamond$] Managed by programmer with library function calls.
+    \end{itemize}
+    \item Hybrid Programming - OpenMP + MPI
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{\small Programming Support}
+  \begin{itemize}
+    \item Compilers
+    \begin{itemize}
+      \item[$\vardiamond$] Intel Fortran and C/C++
+      \item[$\vardiamond$] GNU compiler suite
+      \item[$\vardiamond$] Portland group Fortran and C/C++
+      \item[$\vardiamond$] CUDA 
+    \end{itemize}
+    \item Scripting languages
+      \begin{enumerate}
+        \item[$\vardiamond$] Perl, Python, BASH, TCSH, TCL/TK
+      \end{enumerate}
+%    \item Scientific and utility libraries
+    \item Numerical and utility libraries
+      \begin{enumerate}
+        \item[$\vardiamond$] FFTW, HDF5, NetCDF, PetSc, Intel MKL
+      \end{enumerate}
+%    \item Debugging and Profiling Tools: Totalview, DDT, TAU
+    \item Debugging and Profiling Tools
+      \begin{enumerate}
+        \item[$\vardiamond$] DDT, TAU, TotalView
+      \end{enumerate}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{\small Scientific Libraries}
+  \begin{itemize}
+    \item Some things are common in scientific codes
+    \begin{itemize}
+      \item Experts have developed and optimized methods for things like
+      \begin{enumerate}
+        \item Matrix Operations
+        \item Fast Fourier Transform
+      \end{enumerate}
+      \item You do not need to reinvent the wheel, makes use of work done by the experts
+    \end{itemize}
+    \item Many Scientific Libraries are available
+    \begin{enumerate}
+      \item Linear Algebra: BLAS, ATLAS
+      \item Linear Solvers: Scalapack, SuperLU, HYPRE, Intel MKL
+      \item Fast Fourier Transform: FFTW, Intel MKL
+      \item Boost
+    \end{enumerate}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{\small I/O}
+  \begin{itemize}
+    \item Reading and Writing data is another common problem
+    \begin{itemize}
+      \item ASCII: portable but slow
+      \item Binary: fast but not portable across machine architectures
+      \item what about metadata
+    \end{itemize}
+    \item Common HPC I/O libraries
+    \begin{itemize}
+      \item HDF: Hierarchial Data Format
+      \item NetCDF: Network Common Data Format
+      \item Manage format conversions between machines, can be annotated by metadata.
+      \item Used by many application, such as third-party visualization applications.
+    \end{itemize}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{\small Programming? Why do I care?}
+  \begin{itemize}
+    \item Get your hands dirty:
+    \begin{itemize}
+      \item Roll your own code
+      \item Install a source code application release
+      \item Modify an existing code
+      \item Understand what the code does for and to you
+    \end{itemize}
+    \item ELSE, use an existing or installed packages and hope it satisfies all your research needs.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{\small Application Software}
+  \begin{itemize}
+    \item Quantum Chemistry
+      \begin{enumerate}
+        \item[$\blacksquare$] Gaussian, GAMESS, NWCHEM, CPMD
+      \end{enumerate}
+    \item Molecular Dynamics
+      \begin{enumerate}
+        \item[$\blacksquare$] Amber, Gromacs, LAMMPS, NAMD
+      \end{enumerate}
+    \item Engineering
+      \begin{enumerate}
+        \item[$\blacksquare$] Fluent (LSU only)
+      \end{enumerate}
+    \item Mathematics and Statistics
+      \begin{enumerate}
+        \item[$\blacksquare$] Matlab (LSU only), Mathematica (LSU only), Octave, R
+      \end{enumerate}
+    \item Visualization
+      \begin{enumerate}
+        \item[$\blacksquare$] GaussView, VisIt, VMD, GNUPLOT
+      \end{enumerate}
+  \end{itemize}
+\end{frame}
+
+
+\begin{frame}
+  \frametitle{\small User Services}
+  \begin{itemize}
+    \item Consulting Services
+    \begin{enumerate}
+      \item[$\vardiamond$] Usage Problems, Program Optimization, Software Installation, Software development advice. 
+    \end{enumerate}
+    \item User Guides
+    \begin{enumerate}
+      \item[$\vardiamond$]HPC: \url{http://www.hpc.lsu.edu/docs/guides.php\#hpc}
+      \item[$\vardiamond$]LONI: \url{http://www.hpc.lsu.edu/docs/guides.php\#loni}
+    \end{enumerate}
+  \item Documentation: \url{https://docs.loni.org}
+  \item Online Courses: \url{https://docs.loni.org/moodle}
+  \item Contact us
+    \begin{enumerate}
+      {\footnotesize
+      \item[$\vardiamond$]Email ticket system: {\color{tigersblue}\href{mailto:sys-help@loni.org?Subject=Questions About HPC@LSU}{sys-help@loni.org}}
+      \item[$\vardiamond$]Telephone Help Desk: 225-578-0900
+      \item[$\vardiamond$]Instant Messenger: lsuhpchelp (AIM, Yahoo Messenger, Google Talk)
+      }
+    \end{enumerate}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{\small Educational Activities}
+  \begin{itemize}
+    \item Weekly Trainings
+    \begin{enumerate}
+      \item Introductory: User Environment, Linux
+      \item Programming: Shell Scripting, Perl, Python, MPI, OpenMP
+      \item Software Development: Debugging, Profiling, Make, Subversion
+      \item Software Applications: Molecular Dynamics, Computational Chemistry \& Biology, Octave, MatLab
+    \end{enumerate}
+    \item Workshops
+    \begin{enumerate}
+      \item Programming: Fortran, C, C++
+      \item Parallel Programming: MPI, OpenMP, GPU
+      \item Support Workshops organized through other Departments.
+    \end{enumerate}
+    \item User Symposium.
+    \item[$\vardiamond$] Inaugural HPC User Symposium, June 2012:  Researchers from various LONI institutions presented their research via invited talks and poster sessions. 
+  \end{itemize}
+\end{frame}
+
+\section{Wrap-Up}
+\begin{frame}
+  \frametitle{\small US Council on Competitiveness}
+  \begin{itemize}
+    \item HPC initiative  is intended to stimulate and facilitate wider usage of HPC across the private sector to propel productivity, innovation and competitiveness.\let\thefootnote\relax\footnote{\tiny \url{http://www.compete.org/about-us/initiatives/hpc}}
+    \item Goals
+    \begin{enumerate}
+      \item Analyze the economic rationale for sustaining U.S. leadership in HPC, especially the impact upon manufacturing, services, business, and state-of-the-art research capabilities
+      \item Identify key private sector HPC applications needs and priorities
+      \item Identify workforce education and training needs to integrate HPC in the private sector
+      \item Foster public-private sector partnerships to better leverage resources and expertise to help overcome barriers to more widespread private sector usage
+    \end{enumerate}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{\small The Future is now}
+  {\Large
+    \begin{itemize}
+      \item[] The FUTURE is now.
+      \item[] {\color{blue}Whatever happens in supercomputing now will be in your desktop in 10-15 years.}
+      \item[] Having supercomputing experience now will keep you ahead of the curve when things get to the desktop in a decade or two.
+    \end{itemize}
+  }
+\end{frame}
+
+\begin{frame}
+  \frametitle{}
+  \color{DarkBlue}{
+  \begin{center}
+    {\fontsize{40}{60}\selectfont The End}\\
+    \vspace{1cm}
+    {\fontsize{20}{30}\selectfont Any Questions?}\\
+    \vspace{0.5cm}
+    {\fontsize{15}{30}\selectfont Next Week:\\\color{red!80!black}{HPC User Environment: Job Management with PBS/Loadleveler}}\\
+    \vspace{0.5cm}
+    {\fontsize{15}{20}\selectfont Survey: \color{red!90!white}{\url{http://www.hpc.lsu.edu/survey}}}
+  \end{center}
+  }
+\end{frame}
+\end{document}
+
