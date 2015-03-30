@@ -87,9 +87,9 @@
 \author[Alex Pacheco]{\large{Alexander~B.~Pacheco}}
        
 %\institute[High Performance Computing @ Louisiana State University - http://www.hpc.lsu.edu] {\inst{}\footnotesize{User Services Consultant\\LSU HPC \& LONI\\sys-help@loni.org}}
-\institute[HPC Training: Spring 2013] {\inst{}\footnotesize{User Services Consultant\\LSU HPC \& LONI\\sys-help@loni.org}}
+\institute[HPC Training: Fall 2013] {\inst{}\footnotesize{User Services Consultant\\LSU HPC \& LONI\\sys-help@loni.org}}
 
-\date[\hfill{January 23, 2012\hspace{2cm}\insertframenumber/\inserttotalframenumber}]{\scriptsize{HPC Training Spring 2013\\Louisiana State University\\Baton Rouge\\January 23, 2013}}
+\date[\hfill{September 4, 2013\hspace{2cm}\insertframenumber/\inserttotalframenumber}]{\scriptsize{HPC Training Fall 2013\\Louisiana State University\\Baton Rouge\\September 4, 2013}}
      
 \subject{Talks}
 \keywords{High Performance Computing, LONI \& LSU HPC Computing Resources}
@@ -205,11 +205,12 @@
       \item[-] have more than a million cores
       \item[-] operate in petaflops ($10^{15}$) range.
     \end{itemize}
-    \item The fastest supercomputer as of Nov 2012 top500 list is Titan
+    \item The fastest supercomputer as of June 2013 top500 list is Tianhe-2
     \begin{itemize}
-      \item[-] Location: Oak Ridge National Laboratory
-      \item[-] Cores: 560640
-      \item[-] Peak Performance: 17.59 PFlop/s
+      \item[-] Location: National University of Defense Technology
+      \item[-] Nodes: 16000
+      \item[-] Cores: 3120000
+      \item[-] Peak Performance: 33.86 PFlop/s
     \end{itemize}
   \end{itemize}
   \begin{gather*}
@@ -582,8 +583,8 @@
           \multirow{4}{*}{ LSU HPC} & Tezpur & 15.3 & LSU & Production & HPC\\
           & Philip & 3.5 & LSU & Production & HPC\\
           \cline{2-6}
-          & \multirow{2}{*}{SuperMike II} & 146 (CPU) & \multirow{2}{*}{LSU} & Friendly & \multirow{2}{*}{HPC} \\
-          &                            & 66 (GPU) & & User Mode & \\
+          & \multirow{2}{*}{SuperMike II} & 146 (CPU) & \multirow{2}{*}{LSU} & \multirow{2}{*}{Production} & \multirow{2}{*}{HPC} \\
+          &                            & 66 (GPU) & &  & \\
           \hline
         \end{tabular}
       \end{center}
@@ -656,7 +657,7 @@
   \end{itemize}
 \end{frame}
 
-\begin{frame}
+\begin{frame}[c]
   \frametitle{\small SuperMike II}
   \begin{eblock}{}
     \begin{itemize}
@@ -667,7 +668,7 @@
       \item 50 GPU nodes with 64GB RAM and dual NVIDIA Tesla M2090 6GB GPUs,
       \item 8 big memory nodes with 256GB RAM, capable of aggregation into a single virtual symmetric processing (vSMP) node using ScaleMP,
       \item Mellanox Infiniband QDR network of 2:1 over-subscription.
-      \item Estimated production launch Feb 2013.
+%      \item Estimated production launch Feb 2013.
 %      \item {\color{red} To run jobs on SuperMike II you will need}
 %      \begin{enumerate}
 %        {\color{red}
@@ -888,7 +889,7 @@
 \end{frame}
 
 \section{HPC@LSU Services}
-\begin{frame}
+\begin{frame}[c]
   \frametitle{\small Communication Software}
   \begin{itemize}
     \item Shared Memory Programming - OpenMP
@@ -905,7 +906,7 @@
   \end{itemize}
 \end{frame}
 
-\begin{frame}
+\begin{frame}[c]
   \frametitle{\small Programming Support}
   \begin{itemize}
     \item Compilers
@@ -932,7 +933,7 @@
   \end{itemize}
 \end{frame}
 
-\begin{frame}
+\begin{frame}[c]
   \frametitle{\small Scientific Libraries}
   \begin{itemize}
     \item Some things are common in scientific codes
@@ -954,7 +955,7 @@
   \end{itemize}
 \end{frame}
 
-\begin{frame}
+\begin{frame}[c]
   \frametitle{\small I/O}
   \begin{itemize}
     \item Reading and Writing data is another common problem
@@ -973,7 +974,7 @@
   \end{itemize}
 \end{frame}
 
-\begin{frame}
+\begin{frame}[c]
   \frametitle{\small Programming? Why do I care?}
   \begin{itemize}
     \item Get your hands dirty:
@@ -987,7 +988,7 @@
   \end{itemize}
 \end{frame}
 
-\begin{frame}
+\begin{frame}[c]
   \frametitle{\small Application Software}
   \begin{itemize}
     \item Quantum Chemistry
@@ -1052,11 +1053,11 @@
     \item Workshops
     \begin{enumerate}
       \item Programming: Fortran, C, C++
-      \item Parallel Programming: MPI, OpenMP, GPU
-      \item Support Workshops organized through other Departments.
+      \item Parallel Programming: MPI, OpenMP, GPU, OpenACC
+      \item Support Workshops organized through other Departments and Supercomputing centers.
     \end{enumerate}
     \item User Symposium.
-    \item[$\vardiamond$] Inaugural HPC User Symposium, June 2012:  Researchers from various LONI institutions presented their research via invited talks and poster sessions. 
+    \item[$\vardiamond$] Held in June 2012 \& 2013, Researchers from various LONI institutions presented their research via invited talks and poster sessions. 
   \end{itemize}
 \end{frame}
 
@@ -1094,7 +1095,7 @@
     \vspace{1cm}
     {\fontsize{20}{30}\selectfont Any Questions?}\\
     \vspace{0.5cm}
-    {\fontsize{15}{30}\selectfont Next Week:\\\color{red!80!black}{HPC User Environment: Job Management with PBS/Loadleveler}}\\
+    {\fontsize{15}{30}\selectfont Next Week:\\\color{red!80!black}{Introduction to Linux}}\\
     \vspace{0.5cm}
     {\fontsize{15}{20}\selectfont Survey: \color{red!90!white}{\url{http://www.hpc.lsu.edu/survey}}}
   \end{center}
