@@ -7,3 +7,8 @@ computational science and engineering research
     + Jan. 23, 2013
     + Sep. 4, 2013
 
+
+# Contributer
+Alex Pacheco  
+ Manager, Research Computing, Lehigh University (Sep. 2014 - Present)  
+ HPC User Services Consultant, LSU & LONI (Aug. 2010 - Sep. 2014)  
